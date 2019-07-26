@@ -37,6 +37,20 @@
             const companies = data[1];
             const offerings = data[2];
 
+            console.log(products[0], companies[0], offerings[0]);
+
+            const product2id = products[0].id;
+            const offers = offerings.filter(elem => elem.productId ===  product2id);
+            
+            const companuIds = offers.map(offer => offer.companyId);
+            const companiesObject = companuIds.map(id => companies.filter(company => company.id === id)[0])
+            const compNames = companiesObject.map(elem => elem.name);
+            const prices  = offers.map(offer => offer.price);
+            const catchPhrases = companiesObject.map(company => company.catchPhrase)
+            console.log(catchPhrases)
+
+
+
             const html = products.map(ele =>
                 `<div class="item">
                     <div class = 'name'>${ele.name}</div>
@@ -46,7 +60,7 @@
             const itemList = document.querySelector('.list')
             itemList.innerHTML = html;
 
-            console.log(products.length, products[0], companies[0].catchPhrase, offerings[0].price);
+            
 
 
 
