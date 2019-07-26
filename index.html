@@ -14,8 +14,12 @@
             width: 100%;
             display: flex;
             justify-content: space-around;
+            flex-wrap: wrap;
         }
         .item{
+            padding: 2rem;
+            display: flex;
+            flex-flow: column;
             width: 50%;
 
         }
@@ -71,7 +75,7 @@
 
 
             const itemList = document.querySelector('.list')
-            itemList.innerHTML = html;
+            itemList.innerHTML = html.join('');
 
 
 
