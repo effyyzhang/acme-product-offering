@@ -11,10 +11,13 @@
                 margin: 2rem;
             }
         .list{
+            width: 100%;
             display: flex;
+            justify-content: space-around;
         }
         .item{
             width: 50%;
+
         }
 
     </style>
@@ -37,30 +40,40 @@
             const companies = data[1];
             const offerings = data[2];
 
-            console.log(products[0], companies[0], offerings[0]);
 
-            const product2id = products[0].id;
-            const offers = offerings.filter(elem => elem.productId ===  product2id);
-            
-            const companuIds = offers.map(offer => offer.companyId);
-            const companiesObject = companuIds.map(id => companies.filter(company => company.id === id)[0])
-            const compNames = companiesObject.map(elem => elem.name);
-            const prices  = offers.map(offer => offer.price);
-            const catchPhrases = companiesObject.map(company => company.catchPhrase)
-            console.log(catchPhrases)
+            const html = [];
 
+            products.map(product => {
+                const productName = product.name;
+                const productId = product.id;
+                const productDescription = product.description;
+                const suggestedPrice = parseInt(product.suggestedPrice, 10).toLocaleString('us-EN', { style: 'currency', currency: 'USD' });
+                const companiesObject = offerings.filter(offering => offering.productId === productId).map(offering => offering.companyId).map(id => companies.filter(company => company.id === id)[0])
+                const compNames = companiesObject.map(company => company.name);
+                const catchPhrases = companiesObject.map(company => company.catchPhrase);
+                const prices  = offerings.filter(offering => offering.productId === productId).map(offering => offering.price);
 
+                const listHtml = [];
+                for(let i = 0; i< companiesObject.length; i++){
+                    const li = `<li>Offered by: ${compNames[i]} at ${prices[i]}</li>`
+                    listHtml.push(li);
+                }
 
-            const html = products.map(ele =>
-                `<div class="item">
-                    <div class = 'name'>${ele.name}</div>
-                </div>`
-            ).join('');
+                const itemHtml = `<div class="item">
+                                    <div class = 'name'>${productName}</div>
+                                    <div class = 'description' >${productDescription}</div>
+                                    <div class = 'suggested-price' >${suggestedPrice}</div>
+                                    <div class = 'offers' > ${listHtml.join('')}</div>
+
+                                </div>`
+                html.push(itemHtml)
+            })
+
 
             const itemList = document.querySelector('.list')
             itemList.innerHTML = html;
 
-            
+
 
 
 
