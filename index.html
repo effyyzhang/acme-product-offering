@@ -13,6 +13,9 @@
         .list{
             display: flex;
         }
+        .item{
+            width: 50%;
+        }
 
     </style>
     <title>Product Offering</title>
@@ -23,6 +26,42 @@
 
     </div>
     <script>
+        const productsAPI = fetch('https://acme-users-api-rev.herokuapp.com/api/products');
+        const companiesAPI = fetch('https://acme-users-api-rev.herokuapp.com/api/companies');
+        const offeringsAPI = fetch('https://acme-users-api-rev.herokuapp.com/api/offerings');
+
+        Promise.all([productsAPI, companiesAPI, offeringsAPI])
+        .then( response => Promise.all(response.map(ele => ele.json()))
+        .then(data => {
+            const products = data[0];
+            const companies = data[1];
+            const offerings = data[2];
+
+            const html = products.map(ele =>
+                `<div class="item">
+                    <div class = 'name'>${ele.name}</div>
+                </div>`
+            ).join('');
+
+            const itemList = document.querySelector('.list')
+            itemList.innerHTML = html;
+
+            console.log(products.length, products[0], companies[0].catchPhrase, offerings[0].price);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } )
+        );
     </script>
 </body>
 </html>
